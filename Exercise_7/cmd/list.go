@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"Gophercises/task/db"
 	"fmt"
+
+	"github.com/chilledblooded/gophercises/Exercise_7/db"
 
 	"github.com/spf13/cobra"
 )

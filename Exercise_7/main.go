@@ -1,10 +1,10 @@
 package main
 
 import (
-	"Gophercises/task/cmd"
-	"Gophercises/task/db"
 	"path/filepath"
 
+	"github.com/chilledblooded/gophercises/Exercise_7/cmd"
+	"github.com/chilledblooded/gophercises/Exercise_7/db"
 	"github.com/mitchellh/go-homedir"
 )
 

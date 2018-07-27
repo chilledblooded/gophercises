@@ -10,6 +10,7 @@ import (
 
 var taskBkt = []byte("tasks")
 
+//Tasks is a structure for the tasks
 type Tasks struct {
 	ID   int
 	Task string
@@ -17,6 +18,7 @@ type Tasks struct {
 
 var db *bolt.DB
 
+//Init is funtion to initialise the database
 func Init(dbPath string) {
 	var err error
 	db, err = bolt.Open(dbPath, 0600, &bolt.Options{Timeout: 1 * time.Second})
@@ -30,6 +32,7 @@ func Init(dbPath string) {
 
 }
 
+//AddTask is a metod to add task into the database
 func AddTask(task string) error {
 	err := db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(taskBkt)
@@ -41,6 +44,7 @@ func AddTask(task string) error {
 	return err
 }
 
+//ListTasks is a method to list tasks in the database
 func ListTasks() ([]Tasks, error) {
 	var tasks []Tasks
 	err := db.View(func(tx *bolt.Tx) error {
@@ -60,6 +64,7 @@ func ListTasks() ([]Tasks, error) {
 	return tasks, nil
 }
 
+//DeleteTask is a method which takes task id and delete the task from database
 func DeleteTask(k int) error {
 	return db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(taskBkt)
