@@ -59,7 +59,7 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-//This PanicDemo function is used to generate panic for server.
+//PanicDemo function is used to generate panic for server.
 //The panic is generated intentionally to check the functionality of recovery middleware.
 func PanicDemo(w http.ResponseWriter, r *http.Request) {
 	panic("Error occured!!!")
