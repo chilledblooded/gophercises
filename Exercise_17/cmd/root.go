@@ -22,5 +22,5 @@ func init() {
 
 func secretsPath() string {
 	home, _ := homedir.Dir()
-	return filepath.Join(home, ".secrets")
+	return filepath.Join(home, "secret.txt")
 }

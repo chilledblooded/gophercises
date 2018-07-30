@@ -87,5 +87,5 @@ func (v *Vault) readKeyValues(r io.Reader) error {
 
 func (v *Vault) writeKeyValues(w io.Writer) error {
 	encoder := json.NewEncoder(w)
-	return encoder.Encode(w)
+	return encoder.Encode(&v.keyValues)
 }
