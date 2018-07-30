@@ -2,7 +2,6 @@ package db
 
 import (
 	"encoding/binary"
-	"fmt"
 	"time"
 
 	"github.com/boltdb/bolt"
@@ -19,17 +18,17 @@ type Tasks struct {
 var db *bolt.DB
 
 //Init is funtion to initialise the database
-func Init(dbPath string) {
+func Init(dbPath string) (*bolt.DB, error) {
 	var err error
 	db, err = bolt.Open(dbPath, 0600, &bolt.Options{Timeout: 1 * time.Second})
 	if err != nil {
-		fmt.Printf("Error occured during db connection %s\n", err)
+		return nil, err
 	}
 	db.Update(func(tx *bolt.Tx) error {
 		_, err = tx.CreateBucketIfNotExists(taskBkt)
 		return err
 	})
-
+	return db, nil
 }
 
 //AddTask is a metod to add task into the database
