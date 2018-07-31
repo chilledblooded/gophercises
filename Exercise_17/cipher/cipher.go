@@ -15,10 +15,7 @@ func EncryptWriter(key string, w io.Writer) (*cipher.StreamWriter, error) {
 
 	iv := make([]byte, aes.BlockSize)
 	io.ReadFull(rand.Reader, iv)
-	stream, err := encrytStream(key, iv)
-	if err != nil {
-		return nil, err
-	}
+	stream, _ := encrytStream(key, iv)
 	n, err := w.Write(iv)
 	if len(iv) != n || err != nil {
 		return nil, errors.New("Unable to write IV into writer")

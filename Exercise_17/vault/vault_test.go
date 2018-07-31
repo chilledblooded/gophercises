@@ -1,6 +1,7 @@
 package vault
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -52,12 +53,13 @@ func TestGetNegative(t *testing.T) {
 
 func TestLoad(t *testing.T) {
 	home, _ := homedir.Dir()
-	fp := filepath.Join(home, "secrettest.txt")
+	fp := filepath.Join(home, "testload.txt")
 	v := File("abc", fp)
 	err := v.load()
 	if err != nil {
 		t.Errorf("Expected no err but got err %v", err)
 	}
+	os.Remove(fp)
 }
 
 func TestLoadNegative(t *testing.T) {
@@ -67,6 +69,12 @@ func TestLoadNegative(t *testing.T) {
 	err := v.load()
 	if err == nil {
 		t.Error("Expected  error but got NO error ")
+	}
+	f := filepath.Join(home, "loadtest.txt")
+	v = File("abc", f)
+	err = v.load()
+	if err == nil {
+		t.Error("Expected Error but got NO error ")
 	}
 }
 
