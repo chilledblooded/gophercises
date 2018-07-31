@@ -57,10 +57,7 @@ func ListTasks() ([]Tasks, error) {
 		}
 		return nil
 	})
-	if err != nil {
-		return nil, err
-	}
-	return tasks, nil
+	return tasks, err
 }
 
 //DeleteTask is a method which takes task id and delete the task from database

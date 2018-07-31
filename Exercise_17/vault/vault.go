@@ -62,7 +62,7 @@ func (v *Vault) load() error {
 	defer f.Close()
 	r, err := cipher.DecryptReader(v.encodingKey, f)
 	if err != nil {
-		return nil
+		return err
 	}
 	return v.readKeyValues(r)
 }

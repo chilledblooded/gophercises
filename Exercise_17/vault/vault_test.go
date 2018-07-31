@@ -43,4 +43,37 @@ func TestGetNegative(t *testing.T) {
 	if err == nil {
 		t.Error("Expected Error but got NO error ")
 	}
+	v = File("", fp)
+	_, err = v.Get("x")
+	if err == nil {
+		t.Error("Expected Error but got NO error ")
+	}
+}
+
+func TestLoad(t *testing.T) {
+	home, _ := homedir.Dir()
+	fp := filepath.Join(home, "secrettest.txt")
+	v := File("abc", fp)
+	err := v.load()
+	if err != nil {
+		t.Errorf("Expected no err but got err %v", err)
+	}
+}
+
+func TestLoadNegative(t *testing.T) {
+	home, _ := homedir.Dir()
+	fp := filepath.Join(home, "secretTest.txt")
+	v := File("", fp)
+	err := v.load()
+	if err == nil {
+		t.Error("Expected  error but got NO error ")
+	}
+}
+
+func TestSave(t *testing.T) {
+	var v Vault
+	err := v.save()
+	if err == nil {
+		t.Error("Expected Error but got NO error ")
+	}
 }

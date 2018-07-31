@@ -17,7 +17,18 @@ func TestEncryptWriter(t *testing.T) {
 		t.Errorf("Expected no err but got err %v", err)
 	}
 }
+func TestDecryptWriterNegative(t *testing.T) {
+	home, _ := homedir.Dir()
+	fp := filepath.Join(home, "secrettest.txt")
 
+	f, _ := os.Open(fp)
+	defer f.Close()
+	_, err := DecryptReader("abc", f)
+	if err == nil {
+		t.Error("Expected error but got no error")
+	}
+
+}
 func TestDecryptReader(t *testing.T) {
 	home, _ := homedir.Dir()
 	fp := filepath.Join(home, "secretTest.txt")
