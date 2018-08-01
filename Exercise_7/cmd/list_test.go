@@ -39,6 +39,32 @@ func TestListCommand(t *testing.T) {
 
 }
 
+func TestNListCommand(t *testing.T) {
+	home, _ := homedir.Dir()
+	DbPath := filepath.Join(home, "tasks.db")
+	dbc, _ := db.Init(DbPath)
+	file, _ := os.OpenFile("testing.txt", os.O_CREATE|os.O_RDWR, 0666)
+	oldStdout := os.Stdout
+	os.Stdout = file
+	dbc.Close()
+	a := []string{""}
+	listCmd.Run(listCmd, a)
+	file.Seek(0, 0)
+	content, err := ioutil.ReadAll(file)
+	if err != nil {
+		t.Error("error occured while test case : ", err)
+	}
+	output := string(content)
+	val := strings.Contains(output, "error occured in list cmd")
+	assert.Equalf(t, true, val, "they should be equal")
+	file.Truncate(0)
+	file.Seek(0, 0)
+	os.Stdout = oldStdout
+	fmt.Println(string(content))
+	file.Close()
+
+}
+
 // func TestListCommandNoData(t *testing.T) {
 // 	home, _ := homedir.Dir()
 // 	DbPath := filepath.Join(home, "taskstest.db")

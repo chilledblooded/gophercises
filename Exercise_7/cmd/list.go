@@ -14,7 +14,7 @@ var listCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		tasks, err := db.ListTasks()
 		if err != nil {
-			fmt.Printf("error occured : %s", err)
+			fmt.Printf("error occured in list cmd")
 		}
 		if len(tasks) == 0 {
 			fmt.Println("you have no Task pending to do...")

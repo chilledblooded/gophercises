@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	_, err := primitive.RunPrimitive("./img/gopher.jpeg", "./img/out.jpeg", 50)
+	_, err := primitive.RunPrimitive("./img/ghoper.jpg", "./img/out.jpg", 50)
 	if err != nil {
 		fmt.Printf("Failed to run primitive command %v", err)
 	}

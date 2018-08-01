@@ -14,10 +14,11 @@ var addCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		task := strings.Join(args, " ")
 		err := db.AddTask(task)
-		if err != nil {
-			fmt.Printf("Error occurred : %s", err)
+		msg := "Error occurred in add cmd"
+		if err == nil {
+			msg = fmt.Sprintf("Added \"%s\" to your task list.\n", task)
 		}
-		fmt.Printf("Added \"%s\" to your task list.\n", task)
+		fmt.Printf(msg)
 	},
 }
 

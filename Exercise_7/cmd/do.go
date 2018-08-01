@@ -16,6 +16,7 @@ var doCmd = &cobra.Command{
 		for _, v := range args {
 			id, err := strconv.Atoi(v)
 			if err != nil {
+				fmt.Printf("Invalid option")
 				return
 			}
 			ids = append(ids, id)
