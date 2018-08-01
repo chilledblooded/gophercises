@@ -16,10 +16,9 @@ var doCmd = &cobra.Command{
 		for _, v := range args {
 			id, err := strconv.Atoi(v)
 			if err != nil {
-				fmt.Printf("Error occured: %s", err)
-			} else {
-				ids = append(ids, id)
+				return
 			}
+			ids = append(ids, id)
 		}
 		tasks, err := db.ListTasks()
 		if err != nil {

@@ -10,12 +10,12 @@ import (
 
 func main() {
 	initApp()
-	cmd.RootCmd.Execute()
 }
 
 func initApp() error {
 	h, _ := homedir.Dir()
 	dbPath := filepath.Join(h, "tasks.db")
 	_, err := db.Init(dbPath)
+	cmd.RootCmd.Execute()
 	return err
 }

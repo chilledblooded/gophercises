@@ -10,3 +10,6 @@ func TestInitApp(t *testing.T) {
 		t.Errorf("Expected Result: No error, Actual Result: Got error : %v", err)
 	}
 }
+func TestMain(t *testing.T) {
+	main()
+}
