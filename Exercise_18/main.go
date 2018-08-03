@@ -1,14 +1,18 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
 
-	"github.com/chilledblooded/gophercises/Exercise_18/primitive"
+	handler "github.com/chilledblooded/gophercises/Exercise_18/handlers"
 )
 
 func main() {
-	_, err := primitive.RunPrimitive("./img/ghoper.jpg", "./img/out.jpg", 50)
-	if err != nil {
-		fmt.Printf("Failed to run primitive command %v", err)
-	}
+	mux := http.NewServeMux()
+	fs := http.FileServer(http.Dir("./img/"))
+	mux.Handle("/img/", http.StripPrefix("/img", fs))
+	mux.HandleFunc("/", handler.Home)
+	mux.HandleFunc("/upload", handler.Upload)
+	mux.HandleFunc("/modify/", handler.Modify)
+	log.Fatal(http.ListenAndServe(":8888", mux))
 }
