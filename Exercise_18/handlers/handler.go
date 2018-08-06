@@ -123,7 +123,7 @@ func renderModeChoices(w http.ResponseWriter, r *http.Request, rs io.ReadSeeker,
 		err = tpl.Execute(w, data)
 		return
 	}
-	http.Error(w, err.Error(), http.StatusInternalServerError)
+	http.Error(w, "error occured in render mode choices", http.StatusInternalServerError)
 }
 
 func renderNumShapeChoices(w http.ResponseWriter, r *http.Request, rs io.ReadSeeker, ext string, mode primitive.Mode) {
@@ -171,9 +171,10 @@ type genOpts struct {
 func genImages(rs io.ReadSeeker, ext string, opts ...genOpts) ([]string, error) {
 	var ret []string
 	var err error
+	var f string
 	for _, opt := range opts {
 		rs.Seek(0, 0)
-		f, err := genImage(rs, ext, opt.N, opt.M)
+		f, err = genImage(rs, ext, opt.N, opt.M)
 		if err == nil {
 			ret = append(ret, f)
 		}
@@ -184,15 +185,17 @@ func genImages(rs io.ReadSeeker, ext string, opts ...genOpts) ([]string, error) 
 func genImage(r io.Reader, ext string, numShapes int, mode primitive.Mode) (string, error) {
 	var outFile *os.File
 	var err error
-	out, err := primitive.Transform(r, ext, numShapes, primitive.WithMode(mode))
+	var out io.Reader
+	out, err = primitive.Transform(r, ext, numShapes, primitive.WithMode(mode))
 	if err == nil {
 		outFile, err = createTempFile("", ext)
 		if err == nil {
 			defer outFile.Close()
 			io.Copy(outFile, out)
+			return outFile.Name(), err
 		}
 	}
-	return outFile.Name(), err
+	return "", err
 }
 
 func createTempFile(name, e string) (*os.File, error) {

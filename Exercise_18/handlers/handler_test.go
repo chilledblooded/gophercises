@@ -11,6 +11,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/chilledblooded/gophercises/Exercise_18/primitive"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.ibm.com/CloudBroker/dash_utils/dashtest"
 )
@@ -79,6 +80,26 @@ func TestModifyMode(t *testing.T) {
 	}
 }
 
+func TestModifyModeNegative(t *testing.T) {
+	srv := httptest.NewServer(GetMux())
+	defer srv.Close()
+	req, _ := http.NewRequest("GET", srv.URL+"/modify/ghoper.jpg?mode=a", nil)
+	res, _ := http.DefaultClient.Do(req)
+	if res.StatusCode == http.StatusOK {
+		t.Errorf("Expected Bad request but got different status %v", res.Status)
+	}
+}
+
+func TestModifyModeNegativeExt(t *testing.T) {
+	srv := httptest.NewServer(GetMux())
+	defer srv.Close()
+	req, _ := http.NewRequest("GET", srv.URL+"/modify/ghoper.txt?mode=2", nil)
+	res, _ := http.DefaultClient.Do(req)
+	if res.StatusCode == http.StatusOK {
+		t.Errorf("Expected status internal server error but got different status %v", res.Status)
+	}
+}
+
 func TestModifyModeShapes(t *testing.T) {
 	srv := httptest.NewServer(GetMux())
 	defer srv.Close()
@@ -86,5 +107,28 @@ func TestModifyModeShapes(t *testing.T) {
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != http.StatusOK {
 		t.Errorf("Expected status ok but got different status %v", res.Status)
+	}
+}
+
+// func TestRenderModeChoices(t *testing.T) {
+// 	req, err := http.NewRequest("GET", "localhost:8888", nil)
+// 	if err != nil {
+// 		t.Fatalf("could not create request: %v", err)
+// 	}
+// 	rs := bytes.NewReader(nil)
+// 	rec := httptest.NewRecorder()
+// 	renderModeChoices(rec, req, rs, "txt")
+// 	res := rec.Result()
+// 	if res.StatusCode != http.StatusInternalServerError {
+// 		t.Errorf("Expected status Internal server error but got %v", res.Status)
+// 	}
+// }
+
+func TestGenImage(t *testing.T) {
+	rs := bytes.NewReader(nil)
+	mode := primitive.ModeCombo
+	_, err := genImage(rs, "txt", -1, mode)
+	if err == nil {
+		t.Error("Expected error but no error")
 	}
 }

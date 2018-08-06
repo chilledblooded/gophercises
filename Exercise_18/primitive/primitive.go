@@ -43,13 +43,15 @@ func WithMode(mode Mode) []string {
 func Transform(image io.Reader, e string, numShapes int, opts []string) (io.Reader, error) {
 	var args []string
 	var err error
+	var inFile *os.File
+	var outFile *os.File
 	for _, opt := range opts {
 		args = append(args, opt)
 	}
-	inFile, err := createTempFile("in_", e)
+	inFile, err = createTempFile("in_", e)
 	if err == nil {
 		defer os.Remove(inFile.Name())
-		outFile, err := createTempFile("in_", e)
+		outFile, err = createTempFile("in_", e)
 		if err == nil {
 			defer os.Remove(outFile.Name())
 			_, err = io.Copy(inFile, image)
@@ -60,7 +62,6 @@ func Transform(image io.Reader, e string, numShapes int, opts []string) (io.Read
 					_, err = io.Copy(b, outFile)
 					return b, err
 				}
-				return nil, err
 			}
 		}
 	}
