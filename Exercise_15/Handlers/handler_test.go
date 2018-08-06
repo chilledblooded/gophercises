@@ -5,8 +5,13 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.ibm.com/CloudBroker/dash_utils/dashtest"
 )
 
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
+}
 func TestWelcome(t *testing.T) {
 	req, err := http.NewRequest("GET", "localhost:8888", nil)
 	if err != nil {

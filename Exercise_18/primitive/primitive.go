@@ -42,31 +42,29 @@ func WithMode(mode Mode) []string {
 //Transform is used to transform the image
 func Transform(image io.Reader, e string, numShapes int, opts []string) (io.Reader, error) {
 	var args []string
+	var err error
 	for _, opt := range opts {
 		args = append(args, opt)
 	}
-
 	inFile, err := createTempFile("in_", e)
-	if err != nil {
-		return nil, errors.New("FAILED TO CREATE TEMPORARY INPUT FILE")
+	if err == nil {
+		defer os.Remove(inFile.Name())
+		outFile, err := createTempFile("in_", e)
+		if err == nil {
+			defer os.Remove(outFile.Name())
+			_, err = io.Copy(inFile, image)
+			if err == nil {
+				_, err = runPrimitive(inFile.Name(), outFile.Name(), numShapes, args...)
+				if err == nil {
+					b := bytes.NewBuffer(nil)
+					_, err = io.Copy(b, outFile)
+					return b, err
+				}
+				return nil, err
+			}
+		}
 	}
-	defer os.Remove(inFile.Name())
-	outFile, err := createTempFile("in_", e)
-	if err != nil {
-		return nil, errors.New("FAILED TO CREATE TEMPORARY OUTPUT FILE")
-	}
-	defer os.Remove(outFile.Name())
-	_, err = io.Copy(inFile, image)
-	if err != nil {
-		return nil, errors.New("FAILED TO COPY IMAGE INTO TEMPORARY INPUT FILE")
-	}
-	_, err = runPrimitive(inFile.Name(), outFile.Name(), numShapes, args...)
-	if err != nil {
-		return nil, fmt.Errorf("FAILED TO RUN PRIMITIVE COMMAND")
-	}
-	b := bytes.NewBuffer(nil)
-	_, err = io.Copy(b, outFile)
-	return b, err
+	return nil, err
 }
 
 func runPrimitive(inFile, outFile string, numShape int, args ...string) (string, error) {

@@ -17,10 +17,15 @@ func EncryptWriter(key string, w io.Writer) (*cipher.StreamWriter, error) {
 	io.ReadFull(rand.Reader, iv)
 	stream, _ := encrytStream(key, iv)
 	n, err := w.Write(iv)
+	err = checkIV(n, iv, err)
+	return &cipher.StreamWriter{S: stream, W: w}, err
+}
+
+func checkIV(n int, iv []byte, err error) error {
 	if len(iv) != n || err != nil {
-		return nil, errors.New("Unable to write IV into writer")
+		return errors.New("Unable to write IV into writer")
 	}
-	return &cipher.StreamWriter{S: stream, W: w}, nil
+	return nil
 }
 
 //DecryptReader takes key and io reader as input.

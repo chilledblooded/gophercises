@@ -8,7 +8,9 @@ import (
 	recovery "github.com/chilledblooded/gophercises/Exercise_15/Middleware"
 )
 
+var listenAndServeFunc = http.ListenAndServe
+
 func main() {
 
-	log.Fatal(http.ListenAndServe(":8888", recovery.RecoveryMid(handler.Handler())))
+	log.Fatal(listenAndServeFunc(":8888", recovery.RecoveryMid(handler.Handler())))
 }

@@ -11,7 +11,12 @@ import (
 	"github.com/chilledblooded/gophercises/Exercise_7/db"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/stretchr/testify/assert"
+	"github.ibm.com/CloudBroker/dash_utils/dashtest"
 )
+
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
+}
 
 func TestAddCmd(t *testing.T) {
 	home, _ := homedir.Dir()

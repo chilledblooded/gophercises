@@ -2,14 +2,11 @@ package main
 
 import (
 	"testing"
+
+	"github.ibm.com/CloudBroker/dash_utils/dashtest"
 )
 
-func TestInitApp(t *testing.T) {
-	err := initApp()
-	if err != nil {
-		t.Errorf("Expected Result: No error, Actual Result: Got error : %v", err)
-	}
-}
-func TestMain(t *testing.T) {
+func TestMain(m *testing.M) {
 	main()
+	dashtest.ControlCoverage(m)
 }

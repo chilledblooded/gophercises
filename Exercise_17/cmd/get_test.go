@@ -8,8 +8,12 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.ibm.com/CloudBroker/dash_utils/dashtest"
 )
 
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
+}
 func TestGetCmd(t *testing.T) {
 	file, _ := os.OpenFile("testing.txt", os.O_CREATE|os.O_RDWR, 0666)
 	oldStdout := os.Stdout

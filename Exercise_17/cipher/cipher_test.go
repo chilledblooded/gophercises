@@ -2,9 +2,13 @@ package cipher
 
 import (
 	"bytes"
+	"crypto/aes"
+	"errors"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.ibm.com/CloudBroker/dash_utils/dashtest"
 
 	homedir "github.com/mitchellh/go-homedir"
 )
@@ -40,4 +44,15 @@ func TestDecryptReader(t *testing.T) {
 	if err != nil {
 		t.Errorf("Expected NO error but got following error : %v ", err)
 	}
+}
+
+func TestCheckIV(t *testing.T) {
+	iv := make([]byte, aes.BlockSize)
+	err := checkIV(10, iv, errors.New("test"))
+	if err == nil {
+		t.Error("Expected error but got no error")
+	}
+}
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
 }

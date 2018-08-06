@@ -6,8 +6,12 @@ import (
 	"testing"
 
 	homedir "github.com/mitchellh/go-homedir"
+	"github.ibm.com/CloudBroker/dash_utils/dashtest"
 )
 
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
+}
 func TestSet(t *testing.T) {
 	home, _ := homedir.Dir()
 	fp := filepath.Join(home, "secretTest.txt")

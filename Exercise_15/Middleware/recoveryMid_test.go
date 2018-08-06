@@ -9,7 +9,12 @@ import (
 	"testing"
 
 	handler "github.com/chilledblooded/gophercises/Exercise_15/Handlers"
+	"github.ibm.com/CloudBroker/dash_utils/dashtest"
 )
+
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
+}
 
 func GetTestHandler() http.HandlerFunc {
 	fn := func(w http.ResponseWriter, r *http.Request) {

@@ -1,7 +1,14 @@
 package db
 
-import "testing"
+import (
+	"testing"
 
+	"github.ibm.com/CloudBroker/dash_utils/dashtest"
+)
+
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
+}
 func TestAddTask(t *testing.T) {
 	db, _ := Init("/home/gs-1708/tasks.db")
 	err := AddTask("testing123")
